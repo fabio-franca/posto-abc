@@ -1,6 +1,6 @@
 object Form_abastecimento: TForm_abastecimento
-  Left = 442
-  Top = 240
+  Left = 462
+  Top = 238
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Abastecer'
@@ -85,8 +85,8 @@ object Form_abastecimento: TForm_abastecimento
     OnChange = cb_bombaChange
   end
   object btn_fechar: TBitBtn
-    Left = 240
-    Top = 144
+    Left = 232
+    Top = 152
     Width = 81
     Height = 33
     Caption = 'Fechar'
@@ -180,7 +180,7 @@ object Form_abastecimento: TForm_abastecimento
   end
   object btn_salvar: TBitBtn
     Left = 128
-    Top = 144
+    Top = 152
     Width = 81
     Height = 33
     Caption = 'Inserir'
@@ -256,16 +256,6 @@ object Form_abastecimento: TForm_abastecimento
     Width = 209
     Height = 21
     TabOrder = 5
-    OnEnter = edt_valorEnter
-    OnExit = edt_valorExit
-  end
-  object edt_novo: TEdit
-    Left = 24
-    Top = 152
-    Width = 41
-    Height = 21
-    TabOrder = 6
-    Visible = False
   end
   object ADOQuery_aux: TADOQuery
     Connection = Form_principal.ConexaoBD

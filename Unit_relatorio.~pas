@@ -17,9 +17,11 @@ type
     dt_inicial: TDateTimePicker;
     dt_final: TDateTimePicker;
     Label2: TLabel;
+    btn_sair: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure btn_gerarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btn_sairClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -69,6 +71,11 @@ procedure TForm_rel_abastecimento.FormCreate(Sender: TObject);
 begin
   dt_inicial.Date := Date;
   dt_final.Date := Date;
+end;
+
+procedure TForm_rel_abastecimento.btn_sairClick(Sender: TObject);
+begin
+ Close;
 end;
 
 end.

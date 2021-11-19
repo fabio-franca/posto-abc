@@ -20,20 +20,16 @@ type
     Bevel1: TBevel;
     btn_salvar: TBitBtn;
     edt_valor: TEdit;
-    edt_novo: TEdit;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cb_bombaChange(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
-    procedure edt_valorEnter(Sender: TObject);
-    procedure edt_valorExit(Sender: TObject);
+
   private
     { Private declarations }
-    function soma (a,b : double) : double;
   public
     { Public declarations }
     id_bomba: string;
-    function formata_valor(valor, destino: string): string;
   end;
 
 var
@@ -55,7 +51,6 @@ end;
 procedure TForm_abastecimento.FormShow(Sender: TObject);
 begin
    edt_valor.Text := '';
-   edt_novo.Text := '';
    cb_bomba.Clear;
    dt_abastecimento.Date := Date;
 
@@ -88,68 +83,15 @@ begin
   ADOQuery_aux.Close;
 end;
 
-function TForm_abastecimento.soma(a,b:double) : double;
-var c: double;
-begin
-  c := a+b;
-  result := c;
-end;
-
-function TForm_abastecimento.formata_valor(valor, destino: string): string;
-var valor_formatado: string;
-    i: integer;
-begin
-  //Verifica os parâmetros
-  if(valor='') or (destino='') then
-    begin
-      result:= '';
-      exit;
-    end;
-  valor_formatado:= valor;
-
-  //Apaga os caracteres do símbolo monetário e o ponto
-  Delete(valor_formatado,pos('R', valor_formatado),1);
-  Delete(valor_formatado,pos('$', valor_formatado),1);
-  Delete(valor_formatado,pos('.', valor_formatado),1);
-
-  //Tira os espaços
-  valor_formatado:= trim(valor_formatado);
-  
-  //Retorna o valor formtado de acordo com o destino
-  if destino='T' then
-    result:= FormatCurr('R$ #,##0.00', StrToCurr(valor_formatado))
-  else if destino = 'E' then
-    result:= valor_formatado
-  else if destino = 'B' then
-    begin
-      //Varre a string para substituir a vírgula por ponto
-      for i:=1 to Length(valor_formatado) do
-      begin
-        if valor_formatado[i] = ',' then
-        valor_formatado[i]:= '.';
-      end;
-      result:= valor_formatado;
-    end;
-end;
-
 procedure TForm_abastecimento.btn_salvarClick(Sender: TObject);
-var data_abastecimento, edt_modificado: string;
-    valor, percentual, valorFinal: currency;
-    i: integer;
+var data_abastecimento: string;
+    valor, percentual, valorFinal: real;
 begin
-   valor := StrToCurr(edt_valor.Text);
+   valor := StrToFloat(edt_valor.Text);
    percentual := (13/100);
    valorFinal := valor + (percentual * valor);
-   edt_modificado := CurrToStr(valorFinal);
-   edt_novo.Text := edt_modificado;
-   edt_novo.Text := StringReplace(edt_novo.Text, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-
-   //FormatCurr('R$ #,##0.00', StrToCurr(edt_modificado));
-   //for i:=1 to Length(edt_modificado) do
-     // begin
-       // if edt_modificado[i] = ',' then
-       // edt_modificado[i]:= '.';
-      //end;
+   edt_valor.Text := FormatFloat('#,##0.00', valorFinal);
+   edt_valor.Text := StringReplace(edt_valor.Text, ',', '.', [rfReplaceAll, rfIgnoreCase]);
 
 
   if(trim(cb_bomba.Text)='') or (trim(edt_litro.Text)='')
@@ -163,7 +105,7 @@ begin
       data_abastecimento := FormatDateTime('mm/dd/yyyy',dt_abastecimento.Date);
       ADOQuery_aux.SQL.Text := ' INSERT INTO ABASTECIMENTO (ID_BOMBA_ABASTECIMENTO, LITROS, VALOR, DATA_ABASTECIMENTO) VALUES ' +
                                ' ( ' + IntToStr(num_bomba) +
-                               ' , '+ QuotedStr(edt_litro.Text)+ ' , ' + formata_valor(edt_novo.Text,'B') +
+                               ' , '+ QuotedStr(edt_litro.Text)+ ' , ' + QuotedStr(edt_valor.Text) +
                                ' , ' + QuotedStr(data_abastecimento)+ ')';
       try
         //Executa o comando SQL
@@ -192,18 +134,6 @@ begin
           Form_principal.ConexaoBD.RollbackTrans;
         end;
     end
-end;
-
-procedure TForm_abastecimento.edt_valorEnter(Sender: TObject);
-begin
-  //Quando recebe o foco do cursor, aplica o parâmetro E
-  edt_valor.Text:= formata_valor(edt_valor.Text,'E');
-end;
-
-procedure TForm_abastecimento.edt_valorExit(Sender: TObject);
-begin
-  //Quando perde o foco do cursor, aplica o parâmetro T
-  edt_valor.Text:= formata_valor(edt_valor.Text,'T');
 end;
 
 end.

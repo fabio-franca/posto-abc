@@ -1,9 +1,11 @@
 object Form_principal: TForm_principal
   Left = 408
   Top = 218
-  Width = 565
-  Height = 316
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Sistema de Gerenciamento - Posto ABC'
+  ClientHeight = 277
+  ClientWidth = 549
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +13,7 @@ object Form_principal: TForm_principal
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
