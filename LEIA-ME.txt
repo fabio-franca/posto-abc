@@ -1,0 +1,2 @@
+Para criação da base de dados, acessar a pasta "SCRIPTS" e realizar a execução do arquivo:
+SCRIPT_POSTO_ABC.sql
