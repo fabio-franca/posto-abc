@@ -1,0 +1,15 @@
+program Posto_ABC;
+
+uses
+  Forms,
+  Unit1 in 'Unit1.pas' {Form_principal},
+  Unit_abastecimento in 'Unit_abastecimento.pas' {Form_abastecimento};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm_principal, Form_principal);
+  Application.CreateForm(TForm_abastecimento, Form_abastecimento);
+  Application.Run;
+end.
